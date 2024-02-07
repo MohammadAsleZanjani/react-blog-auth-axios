@@ -3,26 +3,31 @@ import { useState, useEffect } from 'react';
 import api from '../utils/api';
 
 const Posts = () => {
-    const [post, setPost] = useState('');
+    const [posts, setPosts] = useState("");
     useEffect(() => {
         // Make a request using the Axios instance
         api.get('/blog/api/v1/post/')
             .then(response => {
                 // Handle the response
-                setPost(response.data);
-                console.log(response.data)
-                console.log(post.title)
+                setPosts(response.data.results);
+                console.log(response)
             })
             .catch(error => {
                 // Handle the error
                 console.error(error);
             });
-    }, []);
-
-
+    },
+        []);
     return (
         <div>
-            <h1>{post.title}</h1>
+
+            {posts && posts.map(function (post) {
+                return (
+                    <div key={post.id}>
+                        <p>Applicant title: {post.title}</p>
+                    </div>
+                )
+            })}
         </div>
     )
 }
